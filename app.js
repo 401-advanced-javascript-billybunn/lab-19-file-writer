@@ -1,15 +1,6 @@
 'use strict';
-/*
-This will be a repeat of the previous labs, this time using your new message queue server.
 
-- In the starter code, you'll once again find an app.js that reads and modifies a file.
-- On a successful write, publish a "save" event to the "file" queue
-- On error, publish an "error" event to the "file" queue
-- Modularize the file reader
-*/
-
-const io = require('socket.io-client');
-const socket = io.connect('http://localhost:3000');
+const Q = require('@nmq/q/client');
 
 const fs = require('fs');
 const util = require('util');
@@ -30,7 +21,7 @@ const alterFile = (file) => {
         file: file,
         text: 'saved properly',
       };
-      socket.emit('file-save', payload);
+      Q.publish('file', 'save', payload);
     })
 
     .catch(error => {
@@ -39,7 +30,7 @@ const alterFile = (file) => {
         file: file, 
         text: error.message,
       };
-      socket.emit('file-error', payload);
+      Q.publish('file', 'error', payload);
     });
 
 };
