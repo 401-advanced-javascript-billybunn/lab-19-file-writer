@@ -21,7 +21,7 @@ const alterFile = (file) => {
         file: file,
         text: 'saved properly',
       };
-      Q.publish('files', 'save', payload);
+      Q.publish('file', 'save', payload);
     })
 
     .catch(error => {
@@ -30,7 +30,7 @@ const alterFile = (file) => {
         file: file, 
         text: error.message,
       };
-      Q.publish('files', 'error', payload);
+      Q.publish('file', 'error', payload);
     });
 
 };
